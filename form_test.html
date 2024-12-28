@@ -1,0 +1,148 @@
+
+
+    <!-- Webinar-section -->
+    <section class="cta-section overlay-bg centred" style="background-image: url(assets/img/webinar.jpg);">
+        <div class="container">
+          <div class="content-box2">
+            <div class="img-text">
+              <img src="assets/img/contact_us.png" alt="" style="border-radius: 50px;">
+              <h4>Talk To Us</h4>
+              <div class="line-divider"></div> <!-- Add the line divider here -->
+            </div>
+            <div class="date-text">
+              <div>Every Wednesdays 12pm - 1pm (GMT)</div>
+              <div><strong>Hosts:</strong> R-Pro Group Customer Service</div>
+            </div>
+            <div class="webinar-button">
+              <button id="join-webinar-btn">Join Webinar</button>
+              <!--join-webinar-btn: put this id name on the button ones rproconsult gave the webinar link in other to function-->
+            </div>
+          </div>
+          <div class="line-divider2"></div> <!-- Add the line divider here -->
+        </div>
+      </section>
+  
+      <!-- Webinar-section end -->
+  
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h4>Join Webinar</h4>
+          <form id="contact-form" action="https://formspree.io/f/mblrddvb" method="POST">
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" name="first-name" required>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input type="text" id="last-name" name="last-name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+              <label for="service">Select Service</label>
+              <select id="service" name="service" required>
+                <option value=""></option>
+                <option value="Rpro Travels: Travel abroad, Visa Assistance">Travel abroad, Visa Assistance</option>
+                <option value="Cyjust Deals: Digital Services">Digital Services</option>
+                <option value="Rpro Business: Business Development Services">Business Development Services</option>
+                <option value="Abroad Consult: Study Abroad">Study Abroad</option>
+              </select>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+          </form>
+          <div class="success-message" id="success-message">Submitted Successfully! Please wait Redirecting...</div>
+        </div>
+      </div>
+  
+      <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+  
+        // Get the button that opens the modal
+        var btn = document.getElementById("join-webinar-btn");
+  
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+  
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+          modal.style.display = "block";
+        }
+  
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+          modal.style.display = "none";
+        }
+  
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+  
+        // Handle form submission
+        document.getElementById('contact-form').addEventListener('submit', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+  
+          // Perform validation
+          var isValid = true;
+          var inputs = document.querySelectorAll('#contact-form input[required], #contact-form select[required]');
+  
+          inputs.forEach(function (input) {
+            if (!input.value.trim()) {
+              isValid = false;
+              input.style.borderColor = '#db0303'; // Highlight empty fields
+            } else {
+              input.style.borderColor = '#ccc'; // Reset field border color
+            }
+          });
+  
+          if (!isValid) {
+            return; // Stop the form submission if validation fails
+          }
+  
+          // Show the success message
+          const successMessage = document.getElementById('success-message');
+          successMessage.style.display = 'block';
+  
+          // Hide the success message and redirect to the webinar link after 2 seconds
+          setTimeout(function () {
+            successMessage.style.display = 'none';
+            modal.style.display = 'none';
+            window.location.href = "https://meet.google.com/jfq-rnod-wux"; // Redirect to the webinar link
+          }, 2000);
+  
+          // Submit the form using Formspree
+          fetch('https://formspree.io/f/mblrddvb', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              firstName: document.getElementById('first-name').value,
+              lastName: document.getElementById('last-name').value,
+              email: document.getElementById('email').value,
+              phone: document.getElementById('phone').value,
+              service: document.getElementById('service').value
+            })
+          }).then(function (response) {
+            if (response.ok) {
+              console.log('Form submitted successfully');
+            } else {
+              console.error('Form submission error:', response);
+            }
+          }).catch(function (error) {
+            console.error('Form submission error:', error);
+          });
+        });
+      </script>
